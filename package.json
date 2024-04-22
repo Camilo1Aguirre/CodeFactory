@@ -47,6 +47,7 @@
     "@semantic-release/release-notes-generator": "^12.1.0",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@vercel/otel": "^0.3.0",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "lodash": "^4.17.21",
     "next": "^14.0.3",
@@ -118,5 +119,6 @@
   "engines": {
     "node": ">=18.17.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@1.22.19",
+  "proxy": "http://localhost:8080"
 }

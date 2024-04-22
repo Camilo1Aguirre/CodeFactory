@@ -1,8 +1,6 @@
-/* eslint-disable @next/next/no-page-custom-font */
-
-import type { NextPage } from 'next';
+// VerPrecios.tsx
 import React, { useEffect, useState } from 'react';
-import '/styles/styles.css';
+import { GET } from '../utils/api'; // Url temporal
 
 interface Flight {
     id: number;
@@ -11,43 +9,27 @@ interface Flight {
     precio: number;
 }
 
-const VerPrecios: NextPage = () => {
+const VerPrecios: React.FC = () => {
     const [flights, setFlights] = useState<Flight[]>([]);
-    const [showPrices] = useState(true); // Cambiado para mostrar precios por defecto
 
     useEffect(() => {
-        fetch('https://65f0ba68da8c6584131c57f7.mockapi.io/api/city/flights')
-            .then(response => response.json())
-            .then(data => setFlights(data))
-            .catch(error => console.error('Error fetching flights:', error));
+        const fetchFlights = async () => {
+            try {
+                const data = await GET('http://localhost:8080/api/flights'); // Url temporal
+                setFlights(data);
+            } catch (error) {
+                console.error('Error fetching flights:', error);
+            }
+        };
+
+        fetchFlights();
     }, []);
 
     return (
         <div>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=optional" />
-            {showPrices && (
-                <div className="flight-header-container">
-                    <div className="flight-header">
-                        <div className="special-logo-container">
-                            <div className="flight-header-filter">
-                                <span className="material-symbols-outlined">flight_takeoff</span>
-                            </div>
-                            <div className="flight-header-text">
-                                Viaje de Medellín a Bogotá - Dom, Mar 14, 2024
-                            </div>
-                        </div>
-                        <div className="flight-header-filter">
-                            <span className="material-symbols-outlined">filter_alt</span>
-                            <span>Recomendado:</span>
-                            <button className="filter-button">Vuelos directos</button>
-                            <button className="filter-button">Mejor precio</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
+            {/* Renderización de vuelos */}
             <div className="container">
-                {/* Aquí van los vuelos y precios en lugar de los campos de búsqueda */}
                 {flights.map((flight, index) => (
                     <div key={index} className="flight-option" style={{ marginBottom: '20px' }}>
                         <div className="best-price">MEJOR PRECIO</div>
@@ -69,14 +51,14 @@ const VerPrecios: NextPage = () => {
                             <div className="airport-codes">MDE</div>
                         </div>
                         <div>
-                            <div className="price"><div className="left-border"></div>
+                            <div className="price">
+                                <div className="left-border"></div>
                                 {flight.precio} COP
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-
             {/* Espacio adicional para separar los componentes */}
             <div style={{ height: '50px' }} />
         </div>
